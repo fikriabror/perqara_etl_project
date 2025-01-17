@@ -1,0 +1,35 @@
+[2025-01-17T15:20:59.555+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: etl_process_with_excel_report.load_data scheduled__2025-01-16T00:00:00+00:00 [queued]>
+[2025-01-17T15:20:59.564+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: etl_process_with_excel_report.load_data scheduled__2025-01-16T00:00:00+00:00 [queued]>
+[2025-01-17T15:20:59.565+0000] {taskinstance.py:1361} INFO - Starting attempt 2 of 2
+[2025-01-17T15:20:59.576+0000] {taskinstance.py:1382} INFO - Executing <Task(PythonOperator): load_data> on 2025-01-16 00:00:00+00:00
+[2025-01-17T15:20:59.584+0000] {standard_task_runner.py:57} INFO - Started process 539 to run task
+[2025-01-17T15:20:59.590+0000] {standard_task_runner.py:84} INFO - Running: ['***', 'tasks', 'run', 'etl_process_with_excel_report', 'load_data', 'scheduled__2025-01-16T00:00:00+00:00', '--job-id', '39', '--raw', '--subdir', 'DAGS_FOLDER/db_to_xls.py', '--cfg-path', '/tmp/tmpifjovwhd']
+[2025-01-17T15:20:59.595+0000] {standard_task_runner.py:85} INFO - Job 39: Subtask load_data
+[2025-01-17T15:20:59.676+0000] {task_command.py:415} INFO - Running <TaskInstance: etl_process_with_excel_report.load_data scheduled__2025-01-16T00:00:00+00:00 [running]> on host 4e4dfd1b49e6
+[2025-01-17T15:20:59.770+0000] {taskinstance.py:1660} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='etl_process_with_excel_report' AIRFLOW_CTX_TASK_ID='load_data' AIRFLOW_CTX_EXECUTION_DATE='2025-01-16T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-01-16T00:00:00+00:00'
+[2025-01-17T15:20:59.883+0000] {base.py:73} INFO - Using connection ID 'local_***' for task execution.
+[2025-01-17T15:20:59.943+0000] {db_to_xls.py:169} ERROR - Error during data loading: relation "sprout.user_profiling" does not exist
+LINE 1: INSERT INTO sprout.user_profiling (user_id, name, timestamp,...
+                    ^
+
+[2025-01-17T15:20:59.944+0000] {taskinstance.py:1943} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/operators/python.py", line 192, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/operators/python.py", line 209, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/dags/db_to_xls.py", line 140, in load_data
+    postgres_hook.insert_rows(
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/providers/common/sql/hooks/sql.py", line 509, in insert_rows
+    cur.execute(sql, values)
+psycopg2.errors.UndefinedTable: relation "sprout.user_profiling" does not exist
+LINE 1: INSERT INTO sprout.user_profiling (user_id, name, timestamp,...
+                    ^
+
+[2025-01-17T15:20:59.960+0000] {taskinstance.py:1400} INFO - Marking task as FAILED. dag_id=etl_process_with_excel_report, task_id=load_data, execution_date=20250116T000000, start_date=20250117T152059, end_date=20250117T152059
+[2025-01-17T15:20:59.970+0000] {standard_task_runner.py:104} ERROR - Failed to execute job 39 for task load_data (relation "sprout.user_profiling" does not exist
+LINE 1: INSERT INTO sprout.user_profiling (user_id, name, timestamp,...
+                    ^
+; 539)
+[2025-01-17T15:21:00.012+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 1
+[2025-01-17T15:21:00.043+0000] {taskinstance.py:2784} INFO - 0 downstream tasks scheduled from follow-on schedule check

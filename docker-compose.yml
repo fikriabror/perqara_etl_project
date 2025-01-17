@@ -1,0 +1,70 @@
+version: '3.7'
+
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    ports:
+      - "5432:5432" 
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  airflow-init:
+    image: apache/airflow:2.7.0
+    entrypoint: airflow db init
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+      AIRFLOW__CORE__FERNET_KEY: 'ewVWe-RZsdvPi6h1ltYvHlZ2KDJ-4VqBLe38pCm9_1A='
+      AIRFLOW__WEBSERVER__SECRET_KEY: 'c7634ade2e815957ec23262da112b2d1'
+    depends_on:
+      - postgres
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./requirements.txt:/requirements.txt
+
+  webserver:
+    build: .
+    depends_on:
+      - postgres
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres:5432/airflow
+      AIRFLOW__CORE__LOAD_EXAMPLES: 'False'
+      AIRFLOW__CORE__FERNET_KEY: 'ewVWe-RZsdvPi6h1ltYvHlZ2KDJ-4VqBLe38pCm9_1A='
+      AIRFLOW__WEBSERVER__SECRET_KEY: 'c7634ade2e815957ec23262da112b2d1'
+    entrypoint: /bin/bash -c "pip install -r /requirements.txt && airflow webserver"
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./requirements.txt:/requirements.txt
+      - /etc/localtime:/etc/localtime:ro
+      - ./scripts:/opt/airflow/scripts
+
+  scheduler:
+    build: .
+    depends_on:
+      - webserver
+      - postgres
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres:5432/airflow
+      AIRFLOW__CORE__FERNET_KEY: 'ewVWe-RZsdvPi6h1ltYvHlZ2KDJ-4VqBLe38pCm9_1A='
+      AIRFLOW__WEBSERVER__SECRET_KEY: 'c7634ade2e815957ec23262da112b2d1'
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./plugins:/opt/airflow/plugins
+      - ./requirements.txt:/requirements.txt
+      - /etc/localtime:/etc/localtime:ro
+      - ./scripts:/opt/airflow/scripts
+      - /var/run/docker.sock:/var/run/docker.sock 
+
+    entrypoint: /bin/bash -c "pip install -r /requirements.txt && airflow scheduler"
+
+volumes:
+  postgres_data:

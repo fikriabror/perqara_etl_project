@@ -1,0 +1,31 @@
+[2025-01-16T19:57:42.973+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: etl_process_with_excel_report.transform_data manual__2025-01-16T19:34:14.698350+00:00 [queued]>
+[2025-01-16T19:57:43.028+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: etl_process_with_excel_report.transform_data manual__2025-01-16T19:34:14.698350+00:00 [queued]>
+[2025-01-16T19:57:43.029+0000] {taskinstance.py:1361} INFO - Starting attempt 3 of 3
+[2025-01-16T19:57:43.106+0000] {taskinstance.py:1382} INFO - Executing <Task(PythonOperator): transform_data> on 2025-01-16 19:34:14.698350+00:00
+[2025-01-16T19:57:43.196+0000] {standard_task_runner.py:57} INFO - Started process 335 to run task
+[2025-01-16T19:57:43.272+0000] {standard_task_runner.py:84} INFO - Running: ['***', 'tasks', 'run', 'etl_process_with_excel_report', 'transform_data', 'manual__2025-01-16T19:34:14.698350+00:00', '--job-id', '23', '--raw', '--subdir', 'DAGS_FOLDER/db_to_xls.py', '--cfg-path', '/tmp/tmpw5td38yh']
+[2025-01-16T19:57:43.328+0000] {standard_task_runner.py:85} INFO - Job 23: Subtask transform_data
+[2025-01-16T19:57:43.604+0000] {task_command.py:415} INFO - Running <TaskInstance: etl_process_with_excel_report.transform_data manual__2025-01-16T19:34:14.698350+00:00 [running]> on host a2a216e8ef88
+[2025-01-16T19:57:43.904+0000] {taskinstance.py:1660} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='etl_process_with_excel_report' AIRFLOW_CTX_TASK_ID='transform_data' AIRFLOW_CTX_EXECUTION_DATE='2025-01-16T19:34:14.698350+00:00' AIRFLOW_CTX_TRY_NUMBER='3' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-01-16T19:34:14.698350+00:00'
+[2025-01-16T19:57:44.006+0000] {db_to_xls.py:79} ERROR - Error during data transformation: 'membership_type'
+[2025-01-16T19:57:44.008+0000] {taskinstance.py:1943} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/operators/python.py", line 192, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/operators/python.py", line 209, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/dags/db_to_xls.py", line 56, in transform_data
+    transactions = pd.merge(transactions, mdr_data, on='membership_type', how='left')
+  File "/home/airflow/.local/lib/python3.9/site-packages/pandas/core/reshape/merge.py", line 148, in merge
+    op = _MergeOperation(
+  File "/home/airflow/.local/lib/python3.9/site-packages/pandas/core/reshape/merge.py", line 737, in __init__
+    ) = self._get_merge_keys()
+  File "/home/airflow/.local/lib/python3.9/site-packages/pandas/core/reshape/merge.py", line 1221, in _get_merge_keys
+    left_keys.append(left._get_label_or_level_values(lk))
+  File "/home/airflow/.local/lib/python3.9/site-packages/pandas/core/generic.py", line 1778, in _get_label_or_level_values
+    raise KeyError(key)
+KeyError: 'membership_type'
+[2025-01-16T19:57:44.077+0000] {taskinstance.py:1400} INFO - Marking task as FAILED. dag_id=etl_process_with_excel_report, task_id=transform_data, execution_date=20250116T193414, start_date=20250116T195742, end_date=20250116T195744
+[2025-01-16T19:57:44.092+0000] {standard_task_runner.py:104} ERROR - Failed to execute job 23 for task transform_data ('membership_type'; 335)
+[2025-01-16T19:57:44.152+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 1
+[2025-01-16T19:57:44.204+0000] {taskinstance.py:2784} INFO - 0 downstream tasks scheduled from follow-on schedule check

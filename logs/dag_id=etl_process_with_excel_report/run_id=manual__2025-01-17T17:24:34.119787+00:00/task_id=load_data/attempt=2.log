@@ -1,0 +1,104 @@
+[2025-01-17T17:31:57.774+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: etl_process_with_excel_report.load_data manual__2025-01-17T17:24:34.119787+00:00 [queued]>
+[2025-01-17T17:31:57.784+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: etl_process_with_excel_report.load_data manual__2025-01-17T17:24:34.119787+00:00 [queued]>
+[2025-01-17T17:31:57.785+0000] {taskinstance.py:1361} INFO - Starting attempt 2 of 2
+[2025-01-17T17:31:57.838+0000] {taskinstance.py:1382} INFO - Executing <Task(PythonOperator): load_data> on 2025-01-17 17:24:34.119787+00:00
+[2025-01-17T17:31:57.860+0000] {standard_task_runner.py:57} INFO - Started process 351 to run task
+[2025-01-17T17:31:57.874+0000] {standard_task_runner.py:84} INFO - Running: ['***', 'tasks', 'run', 'etl_process_with_excel_report', 'load_data', 'manual__2025-01-17T17:24:34.119787+00:00', '--job-id', '67', '--raw', '--subdir', 'DAGS_FOLDER/db_to_xls.py', '--cfg-path', '/tmp/tmpmnald7ri']
+[2025-01-17T17:31:57.882+0000] {standard_task_runner.py:85} INFO - Job 67: Subtask load_data
+[2025-01-17T17:31:58.347+0000] {task_command.py:415} INFO - Running <TaskInstance: etl_process_with_excel_report.load_data manual__2025-01-17T17:24:34.119787+00:00 [running]> on host e075edadbc7d
+[2025-01-17T17:31:58.818+0000] {taskinstance.py:1660} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='etl_process_with_excel_report' AIRFLOW_CTX_TASK_ID='load_data' AIRFLOW_CTX_EXECUTION_DATE='2025-01-17T17:24:34.119787+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-01-17T17:24:34.119787+00:00'
+[2025-01-17T17:31:59.167+0000] {db_to_xls.py:147} INFO - Loaded /tmp/user_profiling.csv with 14 rows and 9 columns.
+[2025-01-17T17:31:59.177+0000] {db_to_xls.py:147} INFO - Loaded /tmp/transaction_totals_per_type.csv with 10 rows and 4 columns.
+[2025-01-17T17:31:59.186+0000] {db_to_xls.py:147} INFO - Loaded /tmp/daily_activity_report.csv with 6 rows and 3 columns.
+[2025-01-17T17:31:59.263+0000] {db_to_xls.py:147} INFO - Loaded /tmp/transactions_with_mdr_df.csv with 14 rows and 15 columns.
+[2025-01-17T17:31:59.381+0000] {base.py:73} INFO - Using connection ID 'local_***' for task execution.
+[2025-01-17T17:31:59.459+0000] {sql.py:418} INFO - Running statement: 
+                CREATE TABLE IF NOT EXISTS sprout.user_profiling (
+                    user_id INT,
+                    name TEXT,
+                    timestamp TIMESTAMP,
+                    membership_type TEXT,
+                    membership_purchase_status TEXT,
+                    mdr_percentage FLOAT,
+                    first_transaction TIMESTAMP,
+                    invoice_total_count INT,
+                    invoice_total_amount FLOAT
+                );
+            , parameters: None
+[2025-01-17T17:31:59.558+0000] {base.py:73} INFO - Using connection ID 'local_***' for task execution.
+[2025-01-17T17:31:59.634+0000] {sql.py:418} INFO - Running statement: TRUNCATE TABLE sprout.user_profiling;, parameters: None
+[2025-01-17T17:31:59.653+0000] {db_to_xls.py:213} INFO - Table sprout.user_profiling truncated.
+[2025-01-17T17:31:59.715+0000] {base.py:73} INFO - Using connection ID 'local_***' for task execution.
+[2025-01-17T17:31:59.734+0000] {sql.py:418} INFO - Running statement: 
+                CREATE TABLE IF NOT EXISTS sprout.transaction_totals_per_type (
+                    timestamp TIMESTAMP,
+                    membership_type TEXT,
+                    invoice_total_count INT,
+                    invoice_total_amount FLOAT
+                );
+            , parameters: None
+[2025-01-17T17:31:59.810+0000] {base.py:73} INFO - Using connection ID 'local_***' for task execution.
+[2025-01-17T17:31:59.830+0000] {sql.py:418} INFO - Running statement: TRUNCATE TABLE sprout.transaction_totals_per_type;, parameters: None
+[2025-01-17T17:31:59.876+0000] {db_to_xls.py:213} INFO - Table sprout.transaction_totals_per_type truncated.
+[2025-01-17T17:31:59.898+0000] {base.py:73} INFO - Using connection ID 'local_***' for task execution.
+[2025-01-17T17:31:59.959+0000] {sql.py:418} INFO - Running statement: 
+                CREATE TABLE IF NOT EXISTS sprout.daily_activity_report (
+                    timestamp TIMESTAMP,
+                    invoice_total_count INT,
+                    invoice_total_amount FLOAT
+                );
+            , parameters: None
+[2025-01-17T17:31:59.983+0000] {base.py:73} INFO - Using connection ID 'local_***' for task execution.
+[2025-01-17T17:32:00.045+0000] {sql.py:418} INFO - Running statement: TRUNCATE TABLE sprout.daily_activity_report;, parameters: None
+[2025-01-17T17:32:00.051+0000] {db_to_xls.py:213} INFO - Table sprout.daily_activity_report truncated.
+[2025-01-17T17:32:00.072+0000] {base.py:73} INFO - Using connection ID 'local_***' for task execution.
+[2025-01-17T17:32:00.131+0000] {sql.py:418} INFO - Running statement: 
+                CREATE TABLE IF NOT EXISTS sprout.transactions_with_mdr (
+                    transaction_id INT,
+                    user_id INT,
+                    transaction_amount FLOAT,
+                    timestamp TIMESTAMP,
+                    name TEXT,
+                    email TEXT,
+                    phone TEXT,
+                    membership_id FLOAT,
+                    membership_type TEXT,
+                    purchase_date DATE,
+                    expiry_date DATE,
+                    mdr_id FLOAT,
+                    mdr_percentage FLOAT,
+                    membership_purchase_status TEXT,
+                    effective_amount FLOAT
+                );
+            , parameters: None
+[2025-01-17T17:32:00.157+0000] {base.py:73} INFO - Using connection ID 'local_***' for task execution.
+[2025-01-17T17:32:00.235+0000] {sql.py:418} INFO - Running statement: TRUNCATE TABLE sprout.transactions_with_mdr;, parameters: None
+[2025-01-17T17:32:00.284+0000] {db_to_xls.py:213} INFO - Table sprout.transactions_with_mdr truncated.
+[2025-01-17T17:32:00.319+0000] {base.py:73} INFO - Using connection ID 'local_***' for task execution.
+[2025-01-17T17:32:00.414+0000] {sql.py:515} INFO - Done loading. Loaded a total of 14 rows into sprout.user_profiling
+[2025-01-17T17:32:00.415+0000] {db_to_xls.py:222} INFO - Inserted 14 rows into sprout.user_profiling.
+[2025-01-17T17:32:00.475+0000] {base.py:73} INFO - Using connection ID 'local_***' for task execution.
+[2025-01-17T17:32:00.534+0000] {sql.py:515} INFO - Done loading. Loaded a total of 10 rows into sprout.transaction_totals_per_type
+[2025-01-17T17:32:00.535+0000] {db_to_xls.py:222} INFO - Inserted 10 rows into sprout.transaction_totals_per_type.
+[2025-01-17T17:32:00.560+0000] {base.py:73} INFO - Using connection ID 'local_***' for task execution.
+[2025-01-17T17:32:00.622+0000] {sql.py:515} INFO - Done loading. Loaded a total of 6 rows into sprout.daily_activity_report
+[2025-01-17T17:32:00.623+0000] {db_to_xls.py:222} INFO - Inserted 6 rows into sprout.daily_activity_report.
+[2025-01-17T17:32:00.640+0000] {base.py:73} INFO - Using connection ID 'local_***' for task execution.
+[2025-01-17T17:32:00.714+0000] {db_to_xls.py:232} ERROR - Error during data loading: can't adapt type 'NAType'
+[2025-01-17T17:32:00.717+0000] {taskinstance.py:1943} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/operators/python.py", line 192, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/operators/python.py", line 209, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/dags/db_to_xls.py", line 227, in load_data
+    insert_data(transactions_with_mdr, 'sprout.transactions_with_mdr')
+  File "/opt/airflow/dags/db_to_xls.py", line 217, in insert_data
+    postgres_hook.insert_rows(
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/providers/common/sql/hooks/sql.py", line 509, in insert_rows
+    cur.execute(sql, values)
+psycopg2.ProgrammingError: can't adapt type 'NAType'
+[2025-01-17T17:32:00.783+0000] {taskinstance.py:1400} INFO - Marking task as FAILED. dag_id=etl_process_with_excel_report, task_id=load_data, execution_date=20250117T172434, start_date=20250117T173157, end_date=20250117T173200
+[2025-01-17T17:32:00.920+0000] {standard_task_runner.py:104} ERROR - Failed to execute job 67 for task load_data (can't adapt type 'NAType'; 351)
+[2025-01-17T17:32:01.012+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 1
+[2025-01-17T17:32:01.217+0000] {taskinstance.py:2784} INFO - 0 downstream tasks scheduled from follow-on schedule check

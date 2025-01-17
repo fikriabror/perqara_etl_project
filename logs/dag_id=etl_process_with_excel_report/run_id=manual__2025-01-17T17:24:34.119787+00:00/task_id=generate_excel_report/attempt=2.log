@@ -1,0 +1,38 @@
+[2025-01-17T17:50:29.137+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: etl_process_with_excel_report.generate_excel_report manual__2025-01-17T17:24:34.119787+00:00 [queued]>
+[2025-01-17T17:50:29.149+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: etl_process_with_excel_report.generate_excel_report manual__2025-01-17T17:24:34.119787+00:00 [queued]>
+[2025-01-17T17:50:29.150+0000] {taskinstance.py:1361} INFO - Starting attempt 2 of 2
+[2025-01-17T17:50:29.172+0000] {taskinstance.py:1382} INFO - Executing <Task(PythonOperator): generate_excel_report> on 2025-01-17 17:24:34.119787+00:00
+[2025-01-17T17:50:29.249+0000] {standard_task_runner.py:57} INFO - Started process 591 to run task
+[2025-01-17T17:50:29.260+0000] {standard_task_runner.py:84} INFO - Running: ['***', 'tasks', 'run', 'etl_process_with_excel_report', 'generate_excel_report', 'manual__2025-01-17T17:24:34.119787+00:00', '--job-id', '75', '--raw', '--subdir', 'DAGS_FOLDER/db_to_xls.py', '--cfg-path', '/tmp/tmpyvqk59k1']
+[2025-01-17T17:50:29.305+0000] {standard_task_runner.py:85} INFO - Job 75: Subtask generate_excel_report
+[2025-01-17T17:50:29.575+0000] {task_command.py:415} INFO - Running <TaskInstance: etl_process_with_excel_report.generate_excel_report manual__2025-01-17T17:24:34.119787+00:00 [running]> on host e075edadbc7d
+[2025-01-17T17:50:29.816+0000] {taskinstance.py:1660} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='etl_process_with_excel_report' AIRFLOW_CTX_TASK_ID='generate_excel_report' AIRFLOW_CTX_EXECUTION_DATE='2025-01-17T17:24:34.119787+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-01-17T17:24:34.119787+00:00'
+[2025-01-17T17:50:29.821+0000] {db_to_xls.py:303} INFO - Fetching data for user_profiling
+[2025-01-17T17:50:29.901+0000] {base.py:73} INFO - Using connection ID 'local_***' for task execution.
+[2025-01-17T17:50:30.053+0000] {logging_mixin.py:151} WARNING - /home/***/.local/lib/python3.9/site-packages/***/providers/common/sql/hooks/sql.py:219 UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
+[2025-01-17T17:50:30.187+0000] {db_to_xls.py:305} INFO - Fetched 14 rows for user_profiling
+[2025-01-17T17:50:30.189+0000] {db_to_xls.py:303} INFO - Fetching data for transaction_type
+[2025-01-17T17:50:30.203+0000] {base.py:73} INFO - Using connection ID 'local_***' for task execution.
+[2025-01-17T17:50:30.216+0000] {db_to_xls.py:305} INFO - Fetched 10 rows for transaction_type
+[2025-01-17T17:50:30.217+0000] {db_to_xls.py:303} INFO - Fetching data for daily_activity_report
+[2025-01-17T17:50:30.228+0000] {base.py:73} INFO - Using connection ID 'local_***' for task execution.
+[2025-01-17T17:50:30.242+0000] {db_to_xls.py:305} INFO - Fetched 6 rows for daily_activity_report
+[2025-01-17T17:50:30.243+0000] {db_to_xls.py:303} INFO - Fetching data for transactions_with_mdr
+[2025-01-17T17:50:30.253+0000] {base.py:73} INFO - Using connection ID 'local_***' for task execution.
+[2025-01-17T17:50:30.266+0000] {db_to_xls.py:305} INFO - Fetched 14 rows for transactions_with_mdr
+[2025-01-17T17:50:30.267+0000] {db_to_xls.py:317} ERROR - The required module for Excel report generation is missing. Install 'xlsxwriter' or 'openpyxl'.
+[2025-01-17T17:50:30.268+0000] {taskinstance.py:1943} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/operators/python.py", line 192, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/operators/python.py", line 209, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/dags/db_to_xls.py", line 309, in generate_excel_report
+    with pd.ExcelWriter(report_file_path, engine='xlsxwriter') as writer:
+  File "/home/airflow/.local/lib/python3.9/site-packages/pandas/io/excel/_xlsxwriter.py", line 192, in __init__
+    from xlsxwriter import Workbook
+ModuleNotFoundError: No module named 'xlsxwriter'
+[2025-01-17T17:50:30.282+0000] {taskinstance.py:1400} INFO - Marking task as FAILED. dag_id=etl_process_with_excel_report, task_id=generate_excel_report, execution_date=20250117T172434, start_date=20250117T175029, end_date=20250117T175030
+[2025-01-17T17:50:30.297+0000] {standard_task_runner.py:104} ERROR - Failed to execute job 75 for task generate_excel_report (No module named 'xlsxwriter'; 591)
+[2025-01-17T17:50:30.334+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 1
+[2025-01-17T17:50:30.352+0000] {taskinstance.py:2784} INFO - 0 downstream tasks scheduled from follow-on schedule check

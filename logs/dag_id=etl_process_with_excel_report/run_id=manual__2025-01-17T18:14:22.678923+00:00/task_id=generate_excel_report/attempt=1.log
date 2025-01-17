@@ -1,0 +1,31 @@
+[2025-01-17T18:14:44.865+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: etl_process_with_excel_report.generate_excel_report manual__2025-01-17T18:14:22.678923+00:00 [queued]>
+[2025-01-17T18:14:44.924+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: etl_process_with_excel_report.generate_excel_report manual__2025-01-17T18:14:22.678923+00:00 [queued]>
+[2025-01-17T18:14:44.926+0000] {taskinstance.py:1361} INFO - Starting attempt 1 of 1
+[2025-01-17T18:14:44.949+0000] {taskinstance.py:1382} INFO - Executing <Task(PythonOperator): generate_excel_report> on 2025-01-17 18:14:22.678923+00:00
+[2025-01-17T18:14:45.065+0000] {standard_task_runner.py:57} INFO - Started process 420 to run task
+[2025-01-17T18:14:45.076+0000] {standard_task_runner.py:84} INFO - Running: ['***', 'tasks', 'run', 'etl_process_with_excel_report', 'generate_excel_report', 'manual__2025-01-17T18:14:22.678923+00:00', '--job-id', '84', '--raw', '--subdir', 'DAGS_FOLDER/db_to_xls.py', '--cfg-path', '/tmp/tmpppp8r0i1']
+[2025-01-17T18:14:45.123+0000] {standard_task_runner.py:85} INFO - Job 84: Subtask generate_excel_report
+[2025-01-17T18:14:45.410+0000] {task_command.py:415} INFO - Running <TaskInstance: etl_process_with_excel_report.generate_excel_report manual__2025-01-17T18:14:22.678923+00:00 [running]> on host b83a74940c8c
+[2025-01-17T18:14:45.728+0000] {taskinstance.py:1660} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='etl_process_with_excel_report' AIRFLOW_CTX_TASK_ID='generate_excel_report' AIRFLOW_CTX_EXECUTION_DATE='2025-01-17T18:14:22.678923+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-01-17T18:14:22.678923+00:00'
+[2025-01-17T18:14:45.732+0000] {db_to_xls.py:304} INFO - Fetching data for user_profiling
+[2025-01-17T18:14:45.815+0000] {base.py:73} INFO - Using connection ID 'local_***' for task execution.
+[2025-01-17T18:14:45.949+0000] {logging_mixin.py:151} WARNING - /home/***/.local/lib/python3.9/site-packages/***/providers/common/sql/hooks/sql.py:219 UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
+[2025-01-17T18:14:46.007+0000] {db_to_xls.py:306} INFO - Fetched 14 rows for user_profiling
+[2025-01-17T18:14:46.008+0000] {db_to_xls.py:304} INFO - Fetching data for transaction_type
+[2025-01-17T18:14:46.033+0000] {base.py:73} INFO - Using connection ID 'local_***' for task execution.
+[2025-01-17T18:14:46.096+0000] {db_to_xls.py:306} INFO - Fetched 10 rows for transaction_type
+[2025-01-17T18:14:46.097+0000] {db_to_xls.py:304} INFO - Fetching data for daily_activity_report
+[2025-01-17T18:14:46.161+0000] {base.py:73} INFO - Using connection ID 'local_***' for task execution.
+[2025-01-17T18:14:46.218+0000] {db_to_xls.py:306} INFO - Fetched 6 rows for daily_activity_report
+[2025-01-17T18:14:46.219+0000] {db_to_xls.py:304} INFO - Fetching data for transactions_with_mdr
+[2025-01-17T18:14:46.240+0000] {base.py:73} INFO - Using connection ID 'local_***' for task execution.
+[2025-01-17T18:14:46.307+0000] {db_to_xls.py:306} INFO - Fetched 14 rows for transactions_with_mdr
+[2025-01-17T18:14:46.463+0000] {db_to_xls.py:313} INFO - Written sheet user_profiling with 14 rows.
+[2025-01-17T18:14:46.495+0000] {db_to_xls.py:313} INFO - Written sheet transaction_type with 10 rows.
+[2025-01-17T18:14:46.519+0000] {db_to_xls.py:313} INFO - Written sheet daily_activity_report with 6 rows.
+[2025-01-17T18:14:46.526+0000] {db_to_xls.py:313} INFO - Written sheet transactions_with_mdr with 14 rows.
+[2025-01-17T18:14:46.600+0000] {db_to_xls.py:315} INFO - Excel report successfully generated at: ./data/report.xlsx
+[2025-01-17T18:14:46.601+0000] {python.py:194} INFO - Done. Returned value was: None
+[2025-01-17T18:14:46.616+0000] {taskinstance.py:1400} INFO - Marking task as SUCCESS. dag_id=etl_process_with_excel_report, task_id=generate_excel_report, execution_date=20250117T181422, start_date=20250117T181444, end_date=20250117T181446
+[2025-01-17T18:14:46.657+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 0
+[2025-01-17T18:14:46.691+0000] {taskinstance.py:2784} INFO - 1 downstream tasks scheduled from follow-on schedule check
