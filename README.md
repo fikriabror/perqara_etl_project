@@ -2,15 +2,22 @@
 
 ## Project Overview
 
-This project implements an Extract, Transform, Load (ETL) pipeline using Apache Airflow and PostgreSQL. 
-specifically focusing on loading data into a PostgreSQL database and performing necessary transformations.
+This project implements an Extract, Transform, Load (ETL) pipeline using Apache Airflow and PostgreSQL on top of Docker.
+specifically focusing on Extract, Transform, loading data into a PostgreSQL.
 
 ## Prerequisites
 
 Prerequisites
 Install Python, Docker, and PostgreSQL on your local machine.
-Build Docker Image
-docker build -t .
+
+## Dags
+etl_dag.py contains all end to end ETL process until the data load into database posgresql
+
+## Data 
+Data contains all the input csv file that will be loaded into postgresql and extract to transform new data model to data mart
+
+## Scripts
+to run the docker you can execute run_airflow.sh
 
 Initialize run database Init
 docker-compose run --rm webserver airflow db init
@@ -22,11 +29,9 @@ Access Airflow:
 Navigate to http://localhost:8080 in your web browser (default host & port).
 
 Login to Airflow:
-
 Use the default credentials:
 
 Username: admin
-
 Password: admin
 
 Set Up PostgreSQL Connection in Airflow (This is for my postgres in my local machine):
@@ -39,8 +44,8 @@ Schema: postgres
 Password: postgres
 Port: 5432
 login: postgres
-If you have any problem with the login:
 
+If you have any problem with the login:
 Reset the Airflow Password
 If you suspect an issue with the credentials, you can reset the Airflow admin password. Follow these steps:
 

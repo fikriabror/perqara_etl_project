@@ -1,0 +1,76 @@
+[2025-01-29T10:46:44.257+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: create_sales_summary.create_sales_summary manual__2025-01-29T10:43:49.480521+00:00 [queued]>
+[2025-01-29T10:46:44.458+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: create_sales_summary.create_sales_summary manual__2025-01-29T10:43:49.480521+00:00 [queued]>
+[2025-01-29T10:46:44.461+0000] {taskinstance.py:1361} INFO - Starting attempt 1 of 1
+[2025-01-29T10:46:44.662+0000] {taskinstance.py:1382} INFO - Executing <Task(PythonOperator): create_sales_summary> on 2025-01-29 10:43:49.480521+00:00
+[2025-01-29T10:46:44.721+0000] {standard_task_runner.py:57} INFO - Started process 343 to run task
+[2025-01-29T10:46:44.835+0000] {standard_task_runner.py:84} INFO - Running: ['***', 'tasks', 'run', 'create_sales_summary', 'create_sales_summary', 'manual__2025-01-29T10:43:49.480521+00:00', '--job-id', '9', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmpzl61kb5x']
+[2025-01-29T10:46:44.971+0000] {standard_task_runner.py:85} INFO - Job 9: Subtask create_sales_summary
+[2025-01-29T10:46:46.238+0000] {task_command.py:415} INFO - Running <TaskInstance: create_sales_summary.create_sales_summary manual__2025-01-29T10:43:49.480521+00:00 [running]> on host 2a134e86b715
+[2025-01-29T10:46:47.879+0000] {taskinstance.py:1660} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='create_sales_summary' AIRFLOW_CTX_TASK_ID='create_sales_summary' AIRFLOW_CTX_EXECUTION_DATE='2025-01-29T10:43:49.480521+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-01-29T10:43:49.480521+00:00'
+[2025-01-29T10:46:48.451+0000] {base.py:73} INFO - Using connection ID 'local_***' for task execution.
+[2025-01-29T10:46:52.297+0000] {taskinstance.py:1943} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1910, in _execute_context
+    self.dialect.do_execute(
+  File "/home/airflow/.local/lib/python3.9/site-packages/sqlalchemy/engine/default.py", line 736, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.UniqueViolation: duplicate key value violates unique constraint "pg_type_typname_nsp_index"
+DETAIL:  Key (typname, typnamespace)=(sales_summary, 33310) already exists.
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/operators/python.py", line 192, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.9/site-packages/airflow/operators/python.py", line 209, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/dags/etl_dag.py", line 60, in create_sales_summary
+    conn.execute(query)
+  File "/home/airflow/.local/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1370, in execute
+    return self._exec_driver_sql(
+  File "/home/airflow/.local/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1674, in _exec_driver_sql
+    ret = self._execute_context(
+  File "/home/airflow/.local/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1953, in _execute_context
+    self._handle_dbapi_exception(
+  File "/home/airflow/.local/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 2134, in _handle_dbapi_exception
+    util.raise_(
+  File "/home/airflow/.local/lib/python3.9/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
+    raise exception
+  File "/home/airflow/.local/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1910, in _execute_context
+    self.dialect.do_execute(
+  File "/home/airflow/.local/lib/python3.9/site-packages/sqlalchemy/engine/default.py", line 736, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.IntegrityError: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "pg_type_typname_nsp_index"
+DETAIL:  Key (typname, typnamespace)=(sales_summary, 33310) already exists.
+
+[SQL: 
+    CREATE TABLE IF NOT EXISTS data_mart.sales_summary AS
+    SELECT o.order_purchase_timestamp::DATE AS order_date,
+           oi.product_id,
+           COUNT(o.order_id) AS total_orders,
+           SUM(oi.price) AS total_revenue,
+           AVG(oi.price) AS avg_order_value
+    FROM raw_data.orders o
+    JOIN raw_data.order_items oi ON o.order_id = oi.order_id
+    GROUP BY order_date, oi.product_id;
+    ]
+(Background on this error at: https://sqlalche.me/e/14/gkpj)
+[2025-01-29T10:46:52.572+0000] {taskinstance.py:1400} INFO - Marking task as FAILED. dag_id=create_sales_summary, task_id=create_sales_summary, execution_date=20250129T104349, start_date=20250129T104644, end_date=20250129T104652
+[2025-01-29T10:46:52.760+0000] {standard_task_runner.py:104} ERROR - Failed to execute job 9 for task create_sales_summary ((psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "pg_type_typname_nsp_index"
+DETAIL:  Key (typname, typnamespace)=(sales_summary, 33310) already exists.
+
+[SQL: 
+    CREATE TABLE IF NOT EXISTS data_mart.sales_summary AS
+    SELECT o.order_purchase_timestamp::DATE AS order_date,
+           oi.product_id,
+           COUNT(o.order_id) AS total_orders,
+           SUM(oi.price) AS total_revenue,
+           AVG(oi.price) AS avg_order_value
+    FROM raw_data.orders o
+    JOIN raw_data.order_items oi ON o.order_id = oi.order_id
+    GROUP BY order_date, oi.product_id;
+    ]
+(Background on this error at: https://sqlalche.me/e/14/gkpj); 343)
+[2025-01-29T10:46:53.023+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 1
+[2025-01-29T10:46:53.365+0000] {taskinstance.py:2784} INFO - 0 downstream tasks scheduled from follow-on schedule check

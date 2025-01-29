@@ -1,0 +1,15 @@
+[2025-01-29T11:46:00.749+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: create_sales_summary.create_sales_summary manual__2025-01-29T11:45:55.818644+00:00 [queued]>
+[2025-01-29T11:46:00.928+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: create_sales_summary.create_sales_summary manual__2025-01-29T11:45:55.818644+00:00 [queued]>
+[2025-01-29T11:46:00.931+0000] {taskinstance.py:1361} INFO - Starting attempt 1 of 1
+[2025-01-29T11:46:01.057+0000] {taskinstance.py:1382} INFO - Executing <Task(PythonOperator): create_sales_summary> on 2025-01-29 11:45:55.818644+00:00
+[2025-01-29T11:46:01.229+0000] {standard_task_runner.py:57} INFO - Started process 774 to run task
+[2025-01-29T11:46:01.250+0000] {standard_task_runner.py:84} INFO - Running: ['***', 'tasks', 'run', 'create_sales_summary', 'create_sales_summary', 'manual__2025-01-29T11:45:55.818644+00:00', '--job-id', '13', '--raw', '--subdir', 'DAGS_FOLDER/etl_dag.py', '--cfg-path', '/tmp/tmpg8ayijz3']
+[2025-01-29T11:46:01.261+0000] {standard_task_runner.py:85} INFO - Job 13: Subtask create_sales_summary
+[2025-01-29T11:46:02.567+0000] {task_command.py:415} INFO - Running <TaskInstance: create_sales_summary.create_sales_summary manual__2025-01-29T11:45:55.818644+00:00 [running]> on host 2a134e86b715
+[2025-01-29T11:46:02.694+0000] {taskinstance.py:1660} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='create_sales_summary' AIRFLOW_CTX_TASK_ID='create_sales_summary' AIRFLOW_CTX_EXECUTION_DATE='2025-01-29T11:45:55.818644+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-01-29T11:45:55.818644+00:00'
+[2025-01-29T11:46:02.838+0000] {base.py:73} INFO - Using connection ID 'local_***' for task execution.
+[2025-01-29T11:46:07.128+0000] {logging_mixin.py:151} INFO - Sales summary table truncated and reloaded successfully
+[2025-01-29T11:46:07.146+0000] {python.py:194} INFO - Done. Returned value was: None
+[2025-01-29T11:46:07.243+0000] {taskinstance.py:1400} INFO - Marking task as SUCCESS. dag_id=create_sales_summary, task_id=create_sales_summary, execution_date=20250129T114555, start_date=20250129T114600, end_date=20250129T114607
+[2025-01-29T11:46:07.309+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 0
+[2025-01-29T11:46:07.333+0000] {taskinstance.py:2784} INFO - 0 downstream tasks scheduled from follow-on schedule check
